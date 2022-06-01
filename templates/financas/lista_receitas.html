@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Receitas | {{ block.super }}
+{% endblock titulo %}
+
+{% block corpo %}
+
+<div class="conteiner">
+
+   <div class="row">
+         <div class="col">
+            <h1>Receitas</h1>
+            {% include 'blocos/mensagens.html' %}
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Valor R$</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Ações</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for receita in receitas %}
+                    <tr>
+                        <th scope="row">{{ receita.id }}</th>
+                        <td>{{ receita.descricao }}</td>
+                        <td>{{ receita.valor }}</td>
+                        <td>{{ receita.categoria }}</td>
+                         <td><a href="{% url 'financas:editar_receita' receita.id  %}" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="{% url 'financas:apagar_receita' receita.id  %}" class="btn btn-danger btn-sm">Apagar</a>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            <a href="{% url 'financas:nova_receita' %}" class="btn btn-primary">Nova Receita</a>
+         </div>
+    </div>
+
+</div>
+
+{% endblock corpo %}
