@@ -70,14 +70,37 @@ def nova_categoria(request):
 @login_required
 def lista_categorias(request):
     template_name = 'financas/lista_categorias.html'
+
+    categorias = Categoria.objects.filter(usuario=request.user)
+
+    termo_busca = request.GET.get('pesquisa', None)
+
+    if termo_busca:
+
+        categorias = Categoria.objects.filter(nome__icontains=termo_busca) | \
+                     Categoria.objects.filter(descricao__icontains=termo_busca) | \
+                     Categoria.objects.filter(tipo__icontains=termo_busca)
+
+    else:
+
+        categorias = Categoria.objects.all()
+
+    context = {
+        'categorias':categorias
+    }
+
+    return render(request, template_name, context)
+
+'''
     # categorias = Categoria.objects.all() # raw - para usar comandos sql
     categorias = Categoria.objects.filter(usuario=request.user)  # raw - para usar comandos sql
+
     context = {
         'categorias': categorias
     }
     return render(request, template_name, context)
 
-
+'''
 @login_required
 def editar_categoria(request, pk):
     template_name = 'financas/nova_categoria.html'
