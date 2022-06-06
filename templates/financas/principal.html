@@ -5,15 +5,86 @@
 {% endblock titulo %}
 
 {% block corpo %}
-
     <div class="conteiner">
-
+        <h1>Atividades Recentes</h1>
         {% include 'blocos/mensagens.html' %}
+        <h3>Em Receitas total: {{ total_receitas.count }}</h3>
+        <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Valor R$</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for receita in ultimas_receitas %}
+                    <tr>
 
+                        <th scope="row">{{ receita.id }}</th>
+                        <td>{{ receita.descricao }}</td>
+                        <td>{{ receita.valor }}</td>
+                        <td>{{ receita.categoria }}</td>
+                         <td><a href="{% url 'financas:editar_receita' receita.id  %}" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="{% url 'financas:apagar_receita' receita.id  %}" class="btn btn-danger btn-sm">Apagar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+              <h3>Em Despesas total: {{ total_despesas.count }} </h3>
+        <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Valor R$</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for despesa in ultimas_despesas %}
+                    <tr>
+                        <th scope="row">{{ despesa.id }}</th>
+                        <td>{{ despesa.descricao }}</td>
+                        <td>{{ despesa.valor }}</td>
+                        <td>{{ despesa.categoria }}</td>
+                         <td><a href="{% url 'financas:editar_despesa' despesa.id  %}" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="{% url 'financas:apagar_despesa' despesa.id  %}" class="btn btn-danger btn-sm">Apagar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+               <h3>Em Categorias total: {{ total_categorias.count }} </h3>
+        <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Valor R$</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for categoria in ultimas_categorias %}
+                    <tr>
+                        <th scope="row">{{ categoria.id }}</th>
+                        <td>{{ categoria.nome }}</td>
+                        <td>{{ categoria.descricao }}</td>
+                        <td>{{ categoria.get_tipo_display }}</td>
+                         <td><a href="{% url 'financas:editar_categoria' categoria.id  %}" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="{% url 'financas:apagar_categoria' categoria.id  %}" class="btn btn-danger btn-sm">Apagar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         <div class="row" >
-            <h1>Principal</h1>
         </div>
-
     </div>
-
 {% endblock corpo %}

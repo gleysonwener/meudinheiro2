@@ -1,3 +1,5 @@
+from itertools import count
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -6,23 +8,7 @@ from .models import Categoria, Receita, Despesa
 
 from .forms import CategoriaForm, ReceitaForm, DespesaForm
 
-
-
-'''def pesquisa_categorias(request):
-    template_name = 'financas/lista_categorias.html'
-
-    termo_busca = request.GET.get('pesquisa', None)
-    if termo_busca:
-        p_categoria = Categoria.objects.all()
-        p_categoria = Categoria.objects.filter(nome__icontains=termo_busca) | Categoria.objects.filter(descricao__icontains=termo_busca) | Categoria.objects.filter(tipo=termo_busca)
-    else:
-        p_categoria = Categoria.objects.all()
-
-
-    context = {
-        'p_categoria': p_categoria
-    }
-    return render(request, template_name, context)'''
+from django.db.models import Count, Sum
 
 @login_required
 def principal(request):
@@ -42,7 +28,6 @@ def principal(request):
         'total_receitas': total_receitas,
         'total_despesas': total_despesas,
         'total_categorias': total_categorias,
-
     }
 
     return render(request, template_name, context)
@@ -70,8 +55,8 @@ def nova_categoria(request):
 @login_required
 def lista_categorias(request):
     template_name = 'financas/lista_categorias.html'
-    # categorias = Categoria.objects.all() # raw - para usar comandos sql
-    categorias = Categoria.objects.filter(usuario=request.user)  # raw - para usar comandos sql
+    #categorias = Categoria.objects.all() # raw - para usar comandos sql
+    categorias = Categoria.objects.filter(usuario=request.user) # raw - para usar comandos sql
     context = {
         'categorias': categorias
     }
@@ -132,7 +117,6 @@ def nova_receita(request):
         form = ReceitaForm(user=request.user)
     context['form'] = form
     return render(request, template_name, context)
-
 
 @login_required
 def lista_receitas(request):
@@ -214,7 +198,7 @@ def editar_despesa(request, pk):
     try:
         despesa = Despesa.objects.get(pk=pk, usuario=request.user)
     except Despesa.DoesNotExist as e:
-        messages.warning(request, 'Você não tem permissao para editar a depesa informada.')
+        messages.warning(request, 'Você não tem permissao para editar a depea informada.')
         return redirect('financas:lista_despesas')
 
     if request.method == 'POST':
@@ -239,3 +223,13 @@ def apagar_despesa(request, pk):
         return redirect('financas:lista_despesas')
     messages.info(request, 'Despesa Apagada.')
     return redirect('financas:lista_despesas')
+
+
+
+termo_busca = request.GET.get('pesquisa', None)
+
+    if termo_busca:
+        categoria = Categoria.objects.all()
+        categoria = Categoria.objects.filter(nome__icontains=termo_busca)
+    else:
+        categoria = Categoria.objects.all()
