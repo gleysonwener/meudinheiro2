@@ -11,7 +11,7 @@
             <div class="col-8">
                 <h1>Faça seu login</h1>
                 {% include 'blocos/mensagens.html' %}
-                <form method="POST">
+                <form method="POST" autocomplete="off">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="{{ form.usuario.id_for_label }}">{{ form.usuario.label }}</label>
@@ -24,7 +24,7 @@
                     </div>
 
                     <p>
-                        <button type="submit" class="btn btn-primary">Entrar</button>ou <a href="{% url 'usuarios:novo_usuario' %}" >Cadastre-se</a>
+                        <button type="submit" class="btn btn-primary">Entrar</button>ou <a href="{% url 'usuarios:novo_usuario' %}" class="text-decoration-none">Cadastre-se</a>
                     </p>
                 </form>
 

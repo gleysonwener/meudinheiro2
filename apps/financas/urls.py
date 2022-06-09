@@ -16,5 +16,7 @@ urlpatterns =[
     path('nova_despesa/', views.nova_despesa, name='nova_despesa'),
     path('editar_despesa/<int:pk>', views.editar_despesa, name='editar_despesa'),
     path('apagar_despesa/<int:pk>', views.apagar_despesa, name='apagar_despesa'),
+    path('buscar/', views.buscar, name='buscar'),
+    path('relatorios/', views.relatorios, name='relatorios'),
     path('', views.principal, name='principal'),
 ]

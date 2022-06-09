@@ -1,5 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
+from setuptools.command.upload import upload
+
+from apps.financas.manages import CategoriaManager, ReceitaMananger, DespesaMananger
+
 
 class Categoria(models.Model):
     TIPO_CAT_CHOICES = (
@@ -10,6 +14,9 @@ class Categoria(models.Model):
     nome = models.CharField(verbose_name='Nome', max_length=70)
     descricao = models.TextField(verbose_name='Descrição', blank=True, null=True)
     tipo = models.CharField(verbose_name='Tipo', max_length=2, choices=TIPO_CAT_CHOICES)
+
+
+    objects = CategoriaManager()
 
     class Meta:
         verbose_name = 'Categoria'
@@ -29,6 +36,8 @@ class Receita(models.Model):
     cadastrada_em = models.DateTimeField(verbose_name='Cadastrada em', auto_now_add=True)
     atualizada_em = models.DateTimeField(verbose_name='atualizado em', auto_now=True)
 
+    objects = ReceitaMananger()
+
     class Meta:
         verbose_name = 'Receita'
         verbose_name_plural = 'Receitas'
@@ -47,6 +56,8 @@ class Despesa(models.Model):
     categoria = models.ForeignKey(Categoria, verbose_name='Categoria', on_delete=models.SET_NULL, null=True)
     cadastrada_em = models.DateTimeField(verbose_name='Cadastrada em', auto_now_add=True)
     atualizada_em = models.DateTimeField(verbose_name='Atualizada em', auto_now=True)
+
+    objects = DespesaMananger()
 
     class Meta:
         verbose_name = 'Despesa'
